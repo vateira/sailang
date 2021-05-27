@@ -11,18 +11,18 @@ let max := \a b ->
     if a > b then a else b;
 
 let min := \a b ->
-    if a < b then a else b;
+    if a < b then  a  else  b ;
 
 let show := \a s ->
-    if a = 0 then 
+    if a = 0 then { 
         print 0
-    else    
-        { print s;
-          show (a - 1) s
-        };
+    } else {    
+        print s;
+        show (a - 1) s
+    };
 
 
 print f 3 (3 + 5);
 print (max 1 8);
 print min 4 8;
-show 805 1
+show 890 1

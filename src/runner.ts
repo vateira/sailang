@@ -5,10 +5,10 @@ import { Parser } from "./parser.ts";
 import { Memory } from "./memory.ts";
 
 Deno.test("caluclation", () => {
-  assertEquals(run("1 +   1;"), [2]);
-  assertEquals(run("4*4 - 2;"), [14]);
-  assertEquals(run("3 + 4 * 2;"), [11]);
-  assertEquals(run("(3 + 4) * 2;"), [14]);
+  assertEquals(run("1 +   1"), 2);
+  assertEquals(run("4*4 - 2"), 14);
+  assertEquals(run("3 + 4 * 2"), 11);
+  assertEquals(run("(3 + 4) * 2"), 14);
 });
 
 Deno.test("let binads a variable to a value", () => {
@@ -16,7 +16,7 @@ Deno.test("let binads a variable to a value", () => {
     let a := 5 + 7;
     print 2 * (3 + 5) / 4 + a;
 `;
-  assertEquals(run(code), [12, "16"]);
+  assertEquals(run(code), "16");
 });
 
 Deno.test("define a function", () => {
@@ -27,7 +27,7 @@ Deno.test("define a function", () => {
     f 3 4;
     print x;
   `;
-  assertEquals(run(code), [10, "fn", 7, "10"]);
+  assertEquals(run(code), "10");
 });
 
 var memory = new Memory();
@@ -36,7 +36,6 @@ export const run = function (source: string): NodeValue {
   const tokens = tokenize(source);
   const parser = new Parser(tokens);
   const ast = parser.parse();
-
   return Runner.run(ast);
 };
 
@@ -52,11 +51,11 @@ class Runner {
             ));
 
           default:
-            let results = [];
+            let results: NodeValue;
             for (const n of node.nodes!) {
-              results.push(this.run(n));
+              results = this.run(n);
             }
-            return results;
+            return results!;
         }
 
       case "LAMBDA":
