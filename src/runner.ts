@@ -52,7 +52,11 @@ class Runner {
             ));
 
           default:
-            return node.nodes!.map((n: Node) => this.run(n));
+            let results = [];
+            for (const n of node.nodes!) {
+              results.push(this.run(n));
+            }
+            return results;
         }
 
       case "LAMBDA":
